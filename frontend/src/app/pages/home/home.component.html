@@ -1,0 +1,182 @@
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-text">
+      <span class="hero-badge">🎓 Profesora titulada · +8 años de experiencia</span>
+      <h1>Aprende <span class="gradient-text">Español</span> e <span class="gradient-text-2">Inglés</span> con clases a tu medida</h1>
+      <p class="hero-subtitle">
+        Clases particulares personalizadas, online o presenciales en Madrid.
+        Desde conversación fluida hasta preparación de exámenes oficiales.
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/reservar" class="btn-primary">
+          📅 Reservar Clase
+        </a>
+        <a href="#servicios" class="btn-secondary">
+          Ver Servicios ↓
+        </a>
+      </div>
+      <div class="hero-stats">
+        @if (profile(); as p) {
+          <div class="stat">
+            <span class="stat-number">{{ p.averageRating | number:'1.1-1' }}/5</span>
+            <span class="stat-label">⭐ Valoración</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-number">{{ p.yearsOfExperience }}+</span>
+            <span class="stat-label">📚 Años experiencia</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-number">{{ p.totalReviews }}</span>
+            <span class="stat-label">💬 Opiniones</span>
+          </div>
+        }
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="profile-card">
+        <div class="profile-avatar">👩‍🏫</div>
+        <h3>María García</h3>
+        <p class="profile-title">Profesora de Español e Inglés</p>
+        <div class="profile-badges">
+          <span class="badge badge-es">🇪🇸 Español</span>
+          <span class="badge badge-en">🇬🇧 Inglés</span>
+        </div>
+        <div class="profile-info">
+          <span>📍 Madrid</span>
+          <span>💻 Online & Presencial</span>
+        </div>
+        @if (profile(); as p) {
+          <div class="price-tag">
+            Desde <strong>{{ p.pricePerHourSpanish }}€</strong>/hora
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section class="services" id="servicios">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-badge">✨ Servicios</span>
+      <h2>Tipos de <span>Clases</span></h2>
+      <p>Cada clase está diseñada para adaptarse a tus objetivos y nivel</p>
+    </div>
+
+    @if (profile(); as p) {
+      <div class="services-grid">
+        @for (lesson of p.lessonTypes; track lesson.id) {
+          <div class="service-card" [class]="'lang-' + lesson.language.toLowerCase()">
+            <div class="service-icon">{{ lesson.icon }}</div>
+            <h3>{{ lesson.name }}</h3>
+            <p>{{ lesson.description }}</p>
+            <div class="service-meta">
+              <span class="duration">⏱ {{ lesson.durationMinutes }} min</span>
+              <span class="price">{{ lesson.price }}€</span>
+            </div>
+            <span class="modality-tag">
+              {{ lesson.modality === 'Online' ? '💻 Online' : lesson.modality === 'InPerson' ? '🏠 Presencial' : '💻🏠 Online & Presencial' }}
+            </span>
+            <a routerLink="/reservar" class="btn-book">Reservar →</a>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Why Me Section -->
+<section class="why-me">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-badge">🌟 ¿Por qué elegirme?</span>
+      <h2>Aprende de forma <span>eficaz y divertida</span></h2>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Clases Personalizadas</h3>
+        <p>Cada clase se adapta a tu nivel, tus objetivos y tu ritmo de aprendizaje.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>Online o Presencial</h3>
+        <p>Elige cómo aprender: desde casa por videollamada o presencial en Madrid.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📝</div>
+        <h3>Preparación de Exámenes</h3>
+        <p>DELE, Cambridge, TOEFL... Material oficial y simulacros de examen incluidos.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💪</div>
+        <h3>Método Comunicativo</h3>
+        <p>Aprende hablando desde el primer día. Gramática integrada en la comunicación real.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>Horario Flexible</h3>
+        <p>Reserva la hora que mejor te venga. Mañanas, tardes o sábados.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎁</div>
+        <h3>Primera Clase Gratis</h3>
+        <p>Prueba sin compromiso. La primera clase es gratuita para conocernos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="reviews-section">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-badge">💬 Opiniones</span>
+      <h2>Lo que dicen mis <span>alumnos</span></h2>
+    </div>
+
+    <div class="reviews-grid">
+      @for (review of reviews(); track review.id) {
+        <div class="review-card">
+          <div class="review-stars">
+            @for (star of getStars(review.rating); track $index) {
+              <span [class.filled]="star === '★'">{{ star }}</span>
+            }
+          </div>
+          <p class="review-text">"{{ review.comment }}"</p>
+          <div class="review-author">
+            <div class="author-avatar">{{ review.studentName.charAt(0) }}</div>
+            <div>
+              <strong>{{ review.studentName }}</strong>
+              <span class="review-date">{{ getTimeAgo(review.createdAt) }}</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="section-container">
+    <div class="cta-content">
+      <h2>¿Listo para empezar a aprender?</h2>
+      <p>La primera clase es <strong>gratuita</strong>. Reserva ahora y descubre un método que funciona.</p>
+      <div class="cta-actions">
+        <a routerLink="/reservar" class="btn-primary btn-large">📅 Reservar Clase Gratis</a>
+        <a routerLink="/registro" class="btn-outline">Crear Cuenta</a>
+      </div>
+    </div>
+  </div>
+</section>

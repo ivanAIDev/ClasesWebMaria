@@ -1,0 +1,180 @@
+<div class="booking-page">
+  <div class="booking-container">
+
+    <!-- Progress Steps -->
+    <div class="steps-bar">
+      <div class="step" [class.active]="currentStep() >= 1" [class.done]="currentStep() > 1" (click)="goToStep(1)">
+        <div class="step-number">1</div>
+        <span>Tipo de Clase</span>
+      </div>
+      <div class="step-line" [class.active]="currentStep() > 1"></div>
+      <div class="step" [class.active]="currentStep() >= 2" [class.done]="currentStep() > 2" (click)="goToStep(2)">
+        <div class="step-number">2</div>
+        <span>Fecha y Hora</span>
+      </div>
+      <div class="step-line" [class.active]="currentStep() > 2"></div>
+      <div class="step" [class.active]="currentStep() >= 3">
+        <div class="step-number">3</div>
+        <span>Confirmar</span>
+      </div>
+    </div>
+
+    <!-- Step 1: Select Lesson Type -->
+    @if (currentStep() === 1) {
+      <div class="step-content">
+        <h2>📚 ¿Qué tipo de clase quieres?</h2>
+        <p class="step-desc">Elige el tipo de clase que mejor se adapte a tus necesidades</p>
+
+        <div class="lessons-grid">
+          @for (lesson of lessonTypes(); track lesson.id) {
+            <div class="lesson-card" (click)="selectLesson(lesson)"
+                 [class]="'lang-' + lesson.language.toLowerCase()">
+              <div class="lesson-icon">{{ lesson.icon }}</div>
+              <div class="lesson-info">
+                <h3>{{ lesson.name }}</h3>
+                <p>{{ lesson.description }}</p>
+                <div class="lesson-meta">
+                  <span class="meta-duration">⏱ {{ lesson.durationMinutes }} min</span>
+                  <span class="meta-modality">
+                    {{ lesson.modality === 'Online' ? '💻' : lesson.modality === 'InPerson' ? '🏠' : '💻🏠' }}
+                  </span>
+                  <span class="meta-price">{{ lesson.price }}€</span>
+                </div>
+              </div>
+              <div class="lesson-arrow">→</div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Step 2: Select Date & Time -->
+    @if (currentStep() === 2) {
+      <div class="step-content">
+        <h2>📅 Elige fecha y hora</h2>
+        <p class="step-desc">
+          <span class="selected-lesson-badge">{{ selectedLesson()?.icon }} {{ selectedLesson()?.name }}</span>
+          — Selecciona un horario disponible
+        </p>
+
+        <!-- Week Navigation -->
+        <div class="week-nav">
+          <button class="nav-btn" (click)="prevWeek()" [disabled]="!canGoPrev()">← Anterior</button>
+          <span class="week-label">
+            Semana del {{ currentWeekStart() | date:'d' }} de {{ getMonthName(currentWeekStart()) }}
+          </span>
+          <button class="nav-btn" (click)="nextWeek()">Siguiente →</button>
+        </div>
+
+        <!-- Calendar Grid -->
+        @if (loadingSlots()) {
+          <div class="loading-slots">
+            <div class="spinner"></div>
+            <p>Cargando disponibilidad...</p>
+          </div>
+        } @else {
+          <div class="calendar-grid">
+            @for (day of weekDays(); track $index) {
+              <div class="day-column">
+                <div class="day-header" [class.today]="formatDate(day) === formatDate(today)">
+                  <span class="day-name">{{ getDayName(day) }}</span>
+                  <span class="day-number">{{ getDayNumber(day) }}</span>
+                </div>
+                <div class="day-slots">
+                  @for (slot of getSlotsForDay(day); track slot.startTime) {
+                    <button
+                      class="slot-btn"
+                      [class.available]="slot.isAvailable"
+                      [class.unavailable]="!slot.isAvailable"
+                      [class.selected]="selectedSlot()?.date === slot.date && selectedSlot()?.startTime === slot.startTime"
+                      [disabled]="!slot.isAvailable"
+                      (click)="selectSlot(slot)">
+                      {{ formatTime(slot.startTime) }}
+                    </button>
+                  } @empty {
+                    <span class="no-slots">Sin horarios</span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        <div class="legend">
+          <span class="legend-item"><span class="dot available"></span> Disponible</span>
+          <span class="legend-item"><span class="dot unavailable"></span> Ocupado</span>
+        </div>
+      </div>
+    }
+
+    <!-- Step 3: Confirm -->
+    @if (currentStep() === 3 && !bookingSuccess()) {
+      <div class="step-content">
+        <h2>✅ Confirma tu reserva</h2>
+
+        @if (error()) {
+          <div class="alert alert-error">{{ error() }}</div>
+        }
+
+        <div class="booking-summary">
+          <div class="summary-card">
+            <div class="summary-row">
+              <span class="summary-label">Clase</span>
+              <span class="summary-value">{{ selectedLesson()?.icon }} {{ selectedLesson()?.name }}</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Fecha</span>
+              <span class="summary-value">{{ selectedSlot()?.date | date:'EEEE d \'de\' MMMM, yyyy':'':'es' }}</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Horario</span>
+              <span class="summary-value">{{ formatTime(selectedSlot()?.startTime || '') }} — {{ formatTime(selectedSlot()?.endTime || '') }}</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Duración</span>
+              <span class="summary-value">{{ selectedLesson()?.durationMinutes }} minutos</span>
+            </div>
+            <div class="summary-row highlight">
+              <span class="summary-label">Precio</span>
+              <span class="summary-value price">{{ selectedLesson()?.price }}€</span>
+            </div>
+          </div>
+
+          <div class="notes-section">
+            <label for="notes">💬 Notas para la profesora (opcional)</label>
+            <textarea id="notes" [(ngModel)]="studentNotes" name="notes"
+                      placeholder="Cuéntame sobre tu nivel, tus objetivos o cualquier duda..."
+                      rows="3"></textarea>
+          </div>
+
+          @if (auth.isLoggedIn()) {
+            <button class="btn-confirm" (click)="confirmBooking()" [disabled]="booking()">
+              {{ booking() ? 'Reservando...' : '📅 Confirmar Reserva' }}
+            </button>
+          } @else {
+            <div class="auth-prompt">
+              <p>Necesitas una cuenta para reservar</p>
+              <div class="auth-buttons">
+                <a routerLink="/login" class="btn-login">Iniciar Sesión</a>
+                <a routerLink="/registro" class="btn-register">Registrarse</a>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Success -->
+    @if (bookingSuccess()) {
+      <div class="step-content success-content">
+        <div class="success-icon">🎉</div>
+        <h2>¡Reserva realizada!</h2>
+        <p>Tu clase ha sido reservada correctamente. Recibirás una confirmación pronto.</p>
+        <div class="success-actions">
+          <a routerLink="/mis-clases" class="btn-primary">Ver Mis Clases</a>
+          <a routerLink="/" class="btn-secondary">Volver al Inicio</a>
+        </div>
+      </div>
+    }
+  </div>
+</div>
