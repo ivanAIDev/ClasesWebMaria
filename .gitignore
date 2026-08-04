@@ -3,6 +3,8 @@ bin/
 obj/
 *.db
 *.db-journal
+*.db-shm
+*.db-wal
 *.user
 *.suo
 .vs/

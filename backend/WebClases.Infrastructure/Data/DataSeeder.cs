@@ -22,20 +22,20 @@ public static class DataSeeder
             Title = "Profesora de Español e Inglés — Clases Particulares Personalizadas",
             Bio = "¡Hola! Soy María Jesús, profesora titulada con más de 8 años de experiencia " +
                   "enseñando español e inglés a alumnos de todas las edades y niveles. " +
-                  "Vivo en Praga y doy clases tanto online como presenciales. " +
+                  "Vivo en Praga y doy todas mis clases 100% online. " +
                   "Mi método se adapta a cada estudiante: desde preparación de exámenes oficiales " +
                   "(DELE, Cambridge, TOEFL) hasta conversación fluida y clases para empresas. " +
                   "Creo en un aprendizaje dinámico, divertido y eficaz. ¡Te espero en clase!",
             PricePerHourSpanish = 20.00m,
             PricePerHourEnglish = 22.00m,
             CzkEurRate = 25.0m,
-            Modality = LessonModality.Both,
+            Modality = LessonModality.Online,
             Location = "Praga, República Checa",
             YearsOfExperience = 8,
             Qualifications = "Grado en Filología Hispánica, Certificado TEFL, Cambridge C2 Proficiency",
             SpecialtyDescription = "Preparación de exámenes oficiales, conversación, español para extranjeros, inglés de negocios",
             MetaTitle = "Clases Particulares de Español e Inglés | María Jesús — Profesora Titulada",
-            MetaDescription = "Reserva clases particulares de español e inglés con María Jesús. Online y presencial en Praga. Todos los niveles. Primera clase de prueba gratuita."
+            MetaDescription = "Reserva clases particulares de español e inglés con María Jesús. Clases 100% online. Todos los niveles. Primera clase de prueba gratuita."
         };
 
         context.TeacherProfiles.Add(teacherProfile);
@@ -52,7 +52,7 @@ public static class DataSeeder
                 DurationMinutes = 60,
                 Price = 20.00m,
                 PriceCzk = 500.00m,
-                Modality = LessonModality.Both,
+                Modality = LessonModality.Online,
                 Icon = "🇪🇸",
                 SortOrder = 1
             },
@@ -65,7 +65,7 @@ public static class DataSeeder
                 DurationMinutes = 60,
                 Price = 22.00m,
                 PriceCzk = 550.00m,
-                Modality = LessonModality.Both,
+                Modality = LessonModality.Online,
                 Icon = "🇬🇧",
                 SortOrder = 2
             },
@@ -78,7 +78,7 @@ public static class DataSeeder
                 DurationMinutes = 90,
                 Price = 30.00m,
                 PriceCzk = 750.00m,
-                Modality = LessonModality.Both,
+                Modality = LessonModality.Online,
                 Icon = "📝",
                 SortOrder = 3
             },
@@ -91,7 +91,7 @@ public static class DataSeeder
                 DurationMinutes = 90,
                 Price = 30.00m,
                 PriceCzk = 750.00m,
-                Modality = LessonModality.Both,
+                Modality = LessonModality.Online,
                 Icon = "🎓",
                 SortOrder = 4
             },
