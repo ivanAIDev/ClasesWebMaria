@@ -5,25 +5,25 @@
     <div class="steps-bar">
       <div class="step" [class.active]="currentStep() >= 1" [class.done]="currentStep() > 1" (click)="goToStep(1)">
         <div class="step-number">1</div>
-        <span>Tipo de Clase</span>
+        <span>{{ 'booking.step1' | translate }}</span>
       </div>
       <div class="step-line" [class.active]="currentStep() > 1"></div>
       <div class="step" [class.active]="currentStep() >= 2" [class.done]="currentStep() > 2" (click)="goToStep(2)">
         <div class="step-number">2</div>
-        <span>Fecha y Hora</span>
+        <span>{{ 'booking.step2' | translate }}</span>
       </div>
       <div class="step-line" [class.active]="currentStep() > 2"></div>
       <div class="step" [class.active]="currentStep() >= 3">
         <div class="step-number">3</div>
-        <span>Confirmar</span>
+        <span>{{ 'booking.step3' | translate }}</span>
       </div>
     </div>
 
     <!-- Step 1: Select Lesson Type -->
     @if (currentStep() === 1) {
       <div class="step-content">
-        <h2>📚 ¿Qué tipo de clase quieres?</h2>
-        <p class="step-desc">Elige el tipo de clase que mejor se adapte a tus necesidades</p>
+        <h2>{{ 'booking.chooseType' | translate }}</h2>
+        <p class="step-desc">{{ 'booking.chooseTypeDesc' | translate }}</p>
 
         <div class="lessons-grid">
           @for (lesson of lessonTypes(); track lesson.id) {
@@ -34,7 +34,7 @@
                 <h3>{{ lesson.name }}</h3>
                 <p>{{ lesson.description }}</p>
                 <div class="lesson-meta">
-                  <span class="meta-duration">⏱ {{ lesson.durationMinutes }} min</span>
+                  <span class="meta-duration">⏱ {{ lesson.durationMinutes }} {{ 'services.min' | translate }}</span>
                   <span class="meta-modality">
                     {{ lesson.modality === 'Online' ? '💻' : lesson.modality === 'InPerson' ? '🏠' : '💻🏠' }}
                   </span>
@@ -51,26 +51,26 @@
     <!-- Step 2: Select Date & Time -->
     @if (currentStep() === 2) {
       <div class="step-content">
-        <h2>📅 Elige fecha y hora</h2>
+        <h2>{{ 'booking.chooseDate' | translate }}</h2>
         <p class="step-desc">
           <span class="selected-lesson-badge">{{ selectedLesson()?.icon }} {{ selectedLesson()?.name }}</span>
-          — Selecciona un horario disponible
+          {{ 'booking.chooseSlot' | translate }}
         </p>
 
         <!-- Week Navigation -->
         <div class="week-nav">
-          <button class="nav-btn" (click)="prevWeek()" [disabled]="!canGoPrev()">← Anterior</button>
+          <button class="nav-btn" (click)="prevWeek()" [disabled]="!canGoPrev()">{{ 'booking.prevWeek' | translate }}</button>
           <span class="week-label">
-            Semana del {{ currentWeekStart() | date:'d' }} de {{ getMonthName(currentWeekStart()) }}
+            {{ 'booking.weekOf' | translate }} {{ currentWeekStart() | date:'d' }} {{ 'booking.of' | translate }} {{ getMonthName(currentWeekStart()) }}
           </span>
-          <button class="nav-btn" (click)="nextWeek()">Siguiente →</button>
+          <button class="nav-btn" (click)="nextWeek()">{{ 'booking.nextWeek' | translate }}</button>
         </div>
 
         <!-- Calendar Grid -->
         @if (loadingSlots()) {
           <div class="loading-slots">
             <div class="spinner"></div>
-            <p>Cargando disponibilidad...</p>
+            <p>{{ 'booking.loading' | translate }}</p>
           </div>
         } @else {
           <div class="calendar-grid">
@@ -92,7 +92,7 @@
                       {{ formatTime(slot.startTime) }}
                     </button>
                   } @empty {
-                    <span class="no-slots">Sin horarios</span>
+                    <span class="no-slots">{{ 'booking.noSlots' | translate }}</span>
                   }
                 </div>
               </div>
@@ -101,8 +101,8 @@
         }
 
         <div class="legend">
-          <span class="legend-item"><span class="dot available"></span> Disponible</span>
-          <span class="legend-item"><span class="dot unavailable"></span> Ocupado</span>
+          <span class="legend-item"><span class="dot available"></span> {{ 'booking.available' | translate }}</span>
+          <span class="legend-item"><span class="dot unavailable"></span> {{ 'booking.unavailable' | translate }}</span>
         </div>
       </div>
     }
@@ -110,7 +110,7 @@
     <!-- Step 3: Confirm -->
     @if (currentStep() === 3 && !bookingSuccess()) {
       <div class="step-content">
-        <h2>✅ Confirma tu reserva</h2>
+        <h2>{{ 'booking.confirm' | translate }}</h2>
 
         @if (error()) {
           <div class="alert alert-error">{{ error() }}</div>
@@ -119,44 +119,44 @@
         <div class="booking-summary">
           <div class="summary-card">
             <div class="summary-row">
-              <span class="summary-label">Clase</span>
+              <span class="summary-label">{{ 'booking.class' | translate }}</span>
               <span class="summary-value">{{ selectedLesson()?.icon }} {{ selectedLesson()?.name }}</span>
             </div>
             <div class="summary-row">
-              <span class="summary-label">Fecha</span>
-              <span class="summary-value">{{ selectedSlot()?.date | date:'EEEE d \'de\' MMMM, yyyy':'':'es' }}</span>
+              <span class="summary-label">{{ 'booking.date' | translate }}</span>
+              <span class="summary-value">{{ formatSelectedDate() }}</span>
             </div>
             <div class="summary-row">
-              <span class="summary-label">Horario</span>
+              <span class="summary-label">{{ 'booking.time' | translate }}</span>
               <span class="summary-value">{{ formatTime(selectedSlot()?.startTime || '') }} — {{ formatTime(selectedSlot()?.endTime || '') }}</span>
             </div>
             <div class="summary-row">
-              <span class="summary-label">Duración</span>
-              <span class="summary-value">{{ selectedLesson()?.durationMinutes }} minutos</span>
+              <span class="summary-label">{{ 'booking.duration' | translate }}</span>
+              <span class="summary-value">{{ selectedLesson()?.durationMinutes }} {{ 'booking.minutes' | translate }}</span>
             </div>
             <div class="summary-row highlight">
-              <span class="summary-label">Precio</span>
+              <span class="summary-label">{{ 'booking.price' | translate }}</span>
               <span class="summary-value price">{{ selectedLesson()?.price }}€ · {{ selectedLesson()?.priceCzk }} Kč</span>
             </div>
           </div>
 
           <div class="notes-section">
-            <label for="notes">💬 Notas para la profesora (opcional)</label>
+            <label for="notes">{{ 'booking.notes' | translate }}</label>
             <textarea id="notes" [(ngModel)]="studentNotes" name="notes"
-                      placeholder="Cuéntame sobre tu nivel, tus objetivos o cualquier duda..."
+                      [placeholder]="ts.t('booking.notesPlaceholder')"
                       rows="3"></textarea>
           </div>
 
           @if (auth.isLoggedIn()) {
             <button class="btn-confirm" (click)="confirmBooking()" [disabled]="booking()">
-              {{ booking() ? 'Reservando...' : '📅 Confirmar Reserva' }}
+              {{ booking() ? ts.t('booking.confirming') : ts.t('booking.confirmBtn') }}
             </button>
           } @else {
             <div class="auth-prompt">
-              <p>Necesitas una cuenta para reservar</p>
+              <p>{{ 'booking.needAccount' | translate }}</p>
               <div class="auth-buttons">
-                <a routerLink="/login" class="btn-login">Iniciar Sesión</a>
-                <a routerLink="/registro" class="btn-register">Registrarse</a>
+                <a routerLink="/login" class="btn-login">{{ 'nav.login' | translate }}</a>
+                <a routerLink="/registro" class="btn-register">{{ 'nav.register' | translate }}</a>
               </div>
             </div>
           }
@@ -168,11 +168,11 @@
     @if (bookingSuccess()) {
       <div class="step-content success-content">
         <div class="success-icon">🎉</div>
-        <h2>¡Reserva realizada!</h2>
-        <p>Tu clase ha sido reservada correctamente. Recibirás una confirmación pronto.</p>
+        <h2>{{ 'booking.successTitle' | translate }}</h2>
+        <p>{{ 'booking.successMsg' | translate }}</p>
         <div class="success-actions">
-          <a routerLink="/mis-clases" class="btn-primary">Ver Mis Clases</a>
-          <a routerLink="/" class="btn-secondary">Volver al Inicio</a>
+          <a routerLink="/mis-clases" class="btn-primary">{{ 'booking.viewClasses' | translate }}</a>
+          <a routerLink="/" class="btn-secondary">{{ 'booking.backHome' | translate }}</a>
         </div>
       </div>
     }

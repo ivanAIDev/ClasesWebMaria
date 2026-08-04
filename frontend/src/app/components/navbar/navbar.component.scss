@@ -91,6 +91,10 @@
   &:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(225, 112, 85, 0.4); }
 }
 
+app-lang-switcher {
+  margin-left: 0.5rem;
+}
+
 .menu-toggle {
   display: none;
   flex-direction: column;

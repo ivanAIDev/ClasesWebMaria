@@ -5,11 +5,17 @@ import { DatePipe } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { LessonTypeDto, TimeSlotDto } from '../../models/interfaces';
+import { TranslationService } from '../../i18n/translation.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
+
+const LOCALE_MAP: Record<string, string> = {
+  es: 'es-ES', en: 'en-GB', cs: 'cs-CZ', ko: 'ko-KR', pl: 'pl-PL'
+};
 
 @Component({
   selector: 'app-booking',
   standalone: true,
-  imports: [FormsModule, RouterLink, DatePipe],
+  imports: [FormsModule, RouterLink, DatePipe, TranslatePipe],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.scss'
 })
@@ -38,7 +44,8 @@ export class BookingComponent implements OnInit {
   constructor(
     private api: ApiService,
     public auth: AuthService,
-    private router: Router
+    private router: Router,
+    public ts: TranslationService
   ) {}
 
   ngOnInit() {
@@ -113,6 +120,16 @@ export class BookingComponent implements OnInit {
     return `${parts[0]}:${parts[1]}`;
   }
 
+  formatSelectedDate(): string {
+    const slot = this.selectedSlot();
+    if (!slot) return '';
+    const date = new Date(slot.date + 'T12:00:00');
+    const locale = LOCALE_MAP[this.ts.currentLang()] || 'es-ES';
+    return date.toLocaleDateString(locale, {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+  }
+
   // Step 3
   confirmBooking() {
     if (!this.auth.isLoggedIn()) {
@@ -138,7 +155,7 @@ export class BookingComponent implements OnInit {
         this.booking.set(false);
       },
       error: (err) => {
-        this.error.set(err.error?.message || 'Error al crear la reserva');
+        this.error.set(err.error?.message || 'Error');
         this.booking.set(false);
       }
     });
@@ -158,7 +175,8 @@ export class BookingComponent implements OnInit {
   }
 
   getDayName(date: Date): string {
-    return date.toLocaleDateString('es-ES', { weekday: 'short' });
+    const locale = LOCALE_MAP[this.ts.currentLang()] || 'es-ES';
+    return date.toLocaleDateString(locale, { weekday: 'short' });
   }
 
   getDayNumber(date: Date): number {
@@ -166,7 +184,8 @@ export class BookingComponent implements OnInit {
   }
 
   getMonthName(date: Date): string {
-    return date.toLocaleDateString('es-ES', { month: 'long' });
+    const locale = LOCALE_MAP[this.ts.currentLang()] || 'es-ES';
+    return date.toLocaleDateString(locale, { month: 'long' });
   }
 
   private getWeekDays(start: Date): Date[] {

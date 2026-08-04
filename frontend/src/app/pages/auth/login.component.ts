@@ -3,17 +3,19 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
+import { TranslationService } from '../../i18n/translation.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, TranslatePipe],
   template: `
     <div class="auth-page">
       <div class="auth-card">
         <div class="auth-header">
-          <h1>👋 ¡Bienvenido/a!</h1>
-          <p>Inicia sesión para reservar tus clases</p>
+          <h1>{{ 'auth.loginTitle' | translate }}</h1>
+          <p>{{ 'auth.loginSubtitle' | translate }}</p>
         </div>
 
         @if (error()) {
@@ -22,24 +24,24 @@ import { AuthService } from '../../services/auth.service';
 
         <form (ngSubmit)="login()">
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">{{ 'auth.email' | translate }}</label>
             <input id="email" type="email" [(ngModel)]="email" name="email"
                    placeholder="tu&#64;email.com" required />
           </div>
 
           <div class="form-group">
-            <label for="password">Contraseña</label>
+            <label for="password">{{ 'auth.password' | translate }}</label>
             <input id="password" type="password" [(ngModel)]="password" name="password"
-                   placeholder="Tu contraseña" required />
+                   placeholder="••••••" required />
           </div>
 
           <button type="submit" class="btn-submit" [disabled]="loading()">
-            {{ loading() ? 'Entrando...' : 'Iniciar Sesión' }}
+            {{ loading() ? ts.t('auth.loggingIn') : ts.t('auth.loginBtn') }}
           </button>
         </form>
 
         <p class="auth-footer">
-          ¿No tienes cuenta? <a routerLink="/registro">Regístrate gratis</a>
+          {{ 'auth.noAccount' | translate }} <a routerLink="/registro">{{ 'auth.registerLink' | translate }}</a>
         </p>
       </div>
     </div>
@@ -55,7 +57,8 @@ export class LoginComponent {
   constructor(
     private api: ApiService,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    public ts: TranslationService
   ) {}
 
   login() {
@@ -68,7 +71,7 @@ export class LoginComponent {
         this.router.navigate(['/']);
       },
       error: (err) => {
-        this.error.set(err.error?.message || 'Error al iniciar sesión');
+        this.error.set(err.error?.message || 'Error');
         this.loading.set(false);
       }
     });

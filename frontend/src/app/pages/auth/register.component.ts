@@ -3,17 +3,19 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
+import { TranslationService } from '../../i18n/translation.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, TranslatePipe],
   template: `
     <div class="auth-page">
       <div class="auth-card">
         <div class="auth-header">
-          <h1>🎓 Crea tu cuenta</h1>
-          <p>Regístrate para empezar a aprender</p>
+          <h1>{{ 'auth.registerTitle' | translate }}</h1>
+          <p>{{ 'auth.registerSubtitle' | translate }}</p>
         </div>
 
         @if (error()) {
@@ -23,42 +25,42 @@ import { AuthService } from '../../services/auth.service';
         <form (ngSubmit)="register()">
           <div class="form-row">
             <div class="form-group">
-              <label for="firstName">Nombre</label>
+              <label for="firstName">{{ 'auth.firstName' | translate }}</label>
               <input id="firstName" type="text" [(ngModel)]="firstName" name="firstName"
-                     placeholder="Tu nombre" required />
+                     required />
             </div>
             <div class="form-group">
-              <label for="lastName">Apellidos</label>
+              <label for="lastName">{{ 'auth.lastName' | translate }}</label>
               <input id="lastName" type="text" [(ngModel)]="lastName" name="lastName"
-                     placeholder="Tus apellidos" required />
+                     required />
             </div>
           </div>
 
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">{{ 'auth.email' | translate }}</label>
             <input id="email" type="email" [(ngModel)]="email" name="email"
                    placeholder="tu&#64;email.com" required />
           </div>
 
           <div class="form-group">
-            <label for="phone">Teléfono (opcional)</label>
+            <label for="phone">{{ 'auth.phone' | translate }}</label>
             <input id="phone" type="tel" [(ngModel)]="phone" name="phone"
-                   placeholder="+34 600 000 000" />
+                   placeholder="+420 600 000 000" />
           </div>
 
           <div class="form-group">
-            <label for="password">Contraseña</label>
+            <label for="password">{{ 'auth.password' | translate }}</label>
             <input id="password" type="password" [(ngModel)]="password" name="password"
-                   placeholder="Mínimo 6 caracteres" required />
+                   [placeholder]="ts.t('auth.passwordHint')" required />
           </div>
 
           <button type="submit" class="btn-submit" [disabled]="loading()">
-            {{ loading() ? 'Creando cuenta...' : 'Registrarse' }}
+            {{ loading() ? ts.t('auth.registering') : ts.t('auth.registerBtn') }}
           </button>
         </form>
 
         <p class="auth-footer">
-          ¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a>
+          {{ 'auth.hasAccount' | translate }} <a routerLink="/login">{{ 'auth.loginLink' | translate }}</a>
         </p>
       </div>
     </div>
@@ -77,7 +79,8 @@ export class RegisterComponent {
   constructor(
     private api: ApiService,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    public ts: TranslationService
   ) {}
 
   register() {
@@ -96,7 +99,7 @@ export class RegisterComponent {
         this.router.navigate(['/']);
       },
       error: (err) => {
-        this.error.set(err.error?.message || 'Error al registrarse');
+        this.error.set(err.error?.message || 'Error');
         this.loading.set(false);
       }
     });

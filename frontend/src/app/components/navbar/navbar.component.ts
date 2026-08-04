@@ -1,11 +1,14 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { TranslationService } from '../../i18n/translation.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
+import { LangSwitcherComponent } from '../lang-switcher/lang-switcher.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, TranslatePipe, LangSwitcherComponent],
   template: `
     <nav class="navbar">
       <div class="nav-container">
@@ -19,22 +22,24 @@ import { AuthService } from '../../services/auth.service';
         </button>
 
         <div class="nav-links" [class.open]="menuOpen()">
-          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">Inicio</a>
-          <a routerLink="/reservar" routerLinkActive="active" (click)="closeMenu()">Reservar Clase</a>
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">{{ 'nav.home' | translate }}</a>
+          <a routerLink="/reservar" routerLinkActive="active" (click)="closeMenu()">{{ 'nav.book' | translate }}</a>
 
           @if (auth.isLoggedIn()) {
-            <a routerLink="/mis-clases" routerLinkActive="active" (click)="closeMenu()">Mis Clases</a>
+            <a routerLink="/mis-clases" routerLinkActive="active" (click)="closeMenu()">{{ 'nav.myClasses' | translate }}</a>
             @if (auth.isAdmin()) {
-              <a routerLink="/admin" routerLinkActive="active" (click)="closeMenu()">Panel Admin</a>
+              <a routerLink="/admin" routerLinkActive="active" (click)="closeMenu()">{{ 'nav.admin' | translate }}</a>
             }
             <div class="user-menu">
               <span class="user-name">👋 {{ auth.userName() }}</span>
-              <button class="btn-logout" (click)="auth.logout(); closeMenu()">Salir</button>
+              <button class="btn-logout" (click)="auth.logout(); closeMenu()">{{ 'nav.logout' | translate }}</button>
             </div>
           } @else {
-            <a routerLink="/login" routerLinkActive="active" class="btn-login" (click)="closeMenu()">Iniciar Sesión</a>
-            <a routerLink="/registro" routerLinkActive="active" class="btn-register" (click)="closeMenu()">Registrarse</a>
+            <a routerLink="/login" routerLinkActive="active" class="btn-login" (click)="closeMenu()">{{ 'nav.login' | translate }}</a>
+            <a routerLink="/registro" routerLinkActive="active" class="btn-register" (click)="closeMenu()">{{ 'nav.register' | translate }}</a>
           }
+
+          <app-lang-switcher />
         </div>
       </div>
     </nav>
@@ -44,7 +49,7 @@ import { AuthService } from '../../services/auth.service';
 export class NavbarComponent {
   menuOpen = signal(false);
 
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService, public ts: TranslationService) {}
 
   toggleMenu() {
     this.menuOpen.update(v => !v);

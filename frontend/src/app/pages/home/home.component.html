@@ -7,35 +7,34 @@
   </div>
   <div class="hero-content">
     <div class="hero-text">
-      <span class="hero-badge">🎓 Profesora titulada · +8 años de experiencia</span>
-      <h1>Aprende <span class="gradient-text">Español</span> e <span class="gradient-text-2">Inglés</span> con clases a tu medida</h1>
+      <span class="hero-badge">{{ 'hero.badge' | translate }}</span>
+      <h1>{{ 'hero.title.1' | translate }} <span class="gradient-text">{{ 'hero.title.spanish' | translate }}</span> {{ 'hero.title.and' | translate }} <span class="gradient-text-2">{{ 'hero.title.english' | translate }}</span> {{ 'hero.title.2' | translate }}</h1>
       <p class="hero-subtitle">
-        Clases particulares personalizadas, online o presenciales en Praga.
-        Desde conversación fluida hasta preparación de exámenes oficiales.
+        {{ 'hero.subtitle' | translate }}
       </p>
       <div class="hero-actions">
         <a routerLink="/reservar" class="btn-primary">
-          📅 Reservar Clase
+          {{ 'hero.cta' | translate }}
         </a>
         <a href="#servicios" class="btn-secondary">
-          Ver Servicios ↓
+          {{ 'hero.services' | translate }}
         </a>
       </div>
       <div class="hero-stats">
         @if (profile(); as p) {
           <div class="stat">
             <span class="stat-number">{{ p.averageRating | number:'1.1-1' }}/5</span>
-            <span class="stat-label">⭐ Valoración</span>
+            <span class="stat-label">{{ 'hero.rating' | translate }}</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat">
             <span class="stat-number">{{ p.yearsOfExperience }}+</span>
-            <span class="stat-label">📚 Años experiencia</span>
+            <span class="stat-label">{{ 'hero.experience' | translate }}</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat">
             <span class="stat-number">{{ p.totalReviews }}</span>
-            <span class="stat-label">💬 Opiniones</span>
+            <span class="stat-label">{{ 'hero.reviews' | translate }}</span>
           </div>
         }
       </div>
@@ -44,18 +43,18 @@
       <div class="profile-card">
         <div class="profile-avatar">👩‍🏫</div>
         <h3>María Jesús</h3>
-        <p class="profile-title">Profesora de Español e Inglés</p>
+        <p class="profile-title">{{ 'hero.profileTitle' | translate }}</p>
         <div class="profile-badges">
           <span class="badge badge-es">🇪🇸 Español</span>
-          <span class="badge badge-en">🇬🇧 Inglés</span>
+          <span class="badge badge-en">🇬🇧 English</span>
         </div>
         <div class="profile-info">
-          <span>📍 Praga</span>
-          <span>💻 Online & Presencial</span>
+          <span>📍 Praha</span>
+          <span>{{ 'hero.online' | translate }}</span>
         </div>
         @if (profile(); as p) {
           <div class="price-tag">
-            Desde <strong>{{ p.pricePerHourSpanish }}€</strong> · <strong>{{ p.pricePerHourSpanish * p.czkEurRate }} Kč</strong>/hora
+            {{ 'hero.from' | translate }} <strong>{{ p.pricePerHourSpanish }}€</strong> · <strong>{{ p.pricePerHourSpanish * p.czkEurRate }} Kč</strong>{{ 'hero.perHour' | translate }}
           </div>
         }
       </div>
@@ -67,9 +66,9 @@
 <section class="services" id="servicios">
   <div class="section-container">
     <div class="section-header">
-      <span class="section-badge">✨ Servicios</span>
-      <h2>Tipos de <span>Clases</span></h2>
-      <p>Cada clase está diseñada para adaptarse a tus objetivos y nivel</p>
+      <span class="section-badge">{{ 'services.badge' | translate }}</span>
+      <h2>{{ 'services.title' | translate }} <span>{{ 'services.titleAccent' | translate }}</span></h2>
+      <p>{{ 'services.subtitle' | translate }}</p>
     </div>
 
     @if (profile(); as p) {
@@ -80,13 +79,13 @@
             <h3>{{ lesson.name }}</h3>
             <p>{{ lesson.description }}</p>
             <div class="service-meta">
-              <span class="duration">⏱ {{ lesson.durationMinutes }} min</span>
+              <span class="duration">⏱ {{ lesson.durationMinutes }} {{ 'services.min' | translate }}</span>
               <span class="price">{{ lesson.price }}€ · {{ lesson.priceCzk }} Kč</span>
             </div>
             <span class="modality-tag">
-              {{ lesson.modality === 'Online' ? '💻 Online' : lesson.modality === 'InPerson' ? '🏠 Presencial' : '💻🏠 Online & Presencial' }}
+              {{ lesson.modality === 'Online' ? ts.t('services.online') : lesson.modality === 'InPerson' ? ts.t('services.inPerson') : ts.t('services.both') }}
             </span>
-            <a routerLink="/reservar" class="btn-book">Reservar →</a>
+            <a routerLink="/reservar" class="btn-book">{{ 'services.bookBtn' | translate }}</a>
           </div>
         }
       </div>
@@ -98,40 +97,40 @@
 <section class="why-me">
   <div class="section-container">
     <div class="section-header">
-      <span class="section-badge">🌟 ¿Por qué elegirme?</span>
-      <h2>Aprende de forma <span>eficaz y divertida</span></h2>
+      <span class="section-badge">{{ 'why.badge' | translate }}</span>
+      <h2>{{ 'why.title' | translate }} <span>{{ 'why.titleAccent' | translate }}</span></h2>
     </div>
 
     <div class="features-grid">
       <div class="feature-card">
         <div class="feature-icon">🎯</div>
-        <h3>Clases Personalizadas</h3>
-        <p>Cada clase se adapta a tu nivel, tus objetivos y tu ritmo de aprendizaje.</p>
+        <h3>{{ 'why.feat1.title' | translate }}</h3>
+        <p>{{ 'why.feat1.desc' | translate }}</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">📱</div>
-        <h3>Online o Presencial</h3>
-        <p>Elige cómo aprender: desde casa por videollamada o presencial en Praga.</p>
+        <h3>{{ 'why.feat2.title' | translate }}</h3>
+        <p>{{ 'why.feat2.desc' | translate }}</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">📝</div>
-        <h3>Preparación de Exámenes</h3>
-        <p>DELE, Cambridge, TOEFL... Material oficial y simulacros de examen incluidos.</p>
+        <h3>{{ 'why.feat3.title' | translate }}</h3>
+        <p>{{ 'why.feat3.desc' | translate }}</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">💪</div>
-        <h3>Método Comunicativo</h3>
-        <p>Aprende hablando desde el primer día. Gramática integrada en la comunicación real.</p>
+        <h3>{{ 'why.feat4.title' | translate }}</h3>
+        <p>{{ 'why.feat4.desc' | translate }}</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">📅</div>
-        <h3>Horario Flexible</h3>
-        <p>Reserva la hora que mejor te venga. Mañanas, tardes o sábados.</p>
+        <h3>{{ 'why.feat5.title' | translate }}</h3>
+        <p>{{ 'why.feat5.desc' | translate }}</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🎁</div>
-        <h3>Primera Clase Gratis</h3>
-        <p>Prueba sin compromiso. La primera clase es gratuita para conocernos.</p>
+        <h3>{{ 'why.feat6.title' | translate }}</h3>
+        <p>{{ 'why.feat6.desc' | translate }}</p>
       </div>
     </div>
   </div>
@@ -141,8 +140,8 @@
 <section class="reviews-section">
   <div class="section-container">
     <div class="section-header">
-      <span class="section-badge">💬 Opiniones</span>
-      <h2>Lo que dicen mis <span>alumnos</span></h2>
+      <span class="section-badge">{{ 'reviews.badge' | translate }}</span>
+      <h2>{{ 'reviews.title' | translate }} <span>{{ 'reviews.titleAccent' | translate }}</span></h2>
     </div>
 
     <div class="reviews-grid">
@@ -171,11 +170,11 @@
 <section class="cta-section">
   <div class="section-container">
     <div class="cta-content">
-      <h2>¿Listo para empezar a aprender?</h2>
-      <p>La primera clase es <strong>gratuita</strong>. Reserva ahora y descubre un método que funciona.</p>
+      <h2>{{ 'cta.title' | translate }}</h2>
+      <p [innerHTML]="'cta.subtitle' | translate"></p>
       <div class="cta-actions">
-        <a routerLink="/reservar" class="btn-primary btn-large">📅 Reservar Clase Gratis</a>
-        <a routerLink="/registro" class="btn-outline">Crear Cuenta</a>
+        <a routerLink="/reservar" class="btn-primary btn-large">{{ 'cta.btn' | translate }}</a>
+        <a routerLink="/registro" class="btn-outline">{{ 'cta.register' | translate }}</a>
       </div>
     </div>
   </div>

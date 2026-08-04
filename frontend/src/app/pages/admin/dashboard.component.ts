@@ -4,22 +4,24 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { DashboardStatsDto, BookingDto, BookingStatus } from '../../models/interfaces';
+import { TranslationService } from '../../i18n/translation.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, DatePipe, DecimalPipe],
+  imports: [RouterLink, DatePipe, DecimalPipe, TranslatePipe],
   template: `
     <div class="dashboard-page">
       @if (!auth.isAdmin()) {
         <div class="access-denied">
-          <h2>🔒 Acceso restringido</h2>
-          <p>Esta sección es solo para administradores</p>
-          <a routerLink="/" class="btn-primary">Volver al Inicio</a>
+          <h2>{{ 'admin.denied' | translate }}</h2>
+          <p>{{ 'admin.deniedMsg' | translate }}</p>
+          <a routerLink="/" class="btn-primary">{{ 'admin.backHome' | translate }}</a>
         </div>
       } @else {
         <div class="dashboard-container">
-          <h1>📊 Panel de Administración</h1>
+          <h1>{{ 'admin.title' | translate }}</h1>
 
           @if (stats(); as s) {
             <!-- Stats Cards -->
@@ -28,48 +30,48 @@ import { DashboardStatsDto, BookingDto, BookingStatus } from '../../models/inter
                 <span class="stat-icon">📅</span>
                 <div class="stat-info">
                   <span class="stat-value">{{ s.totalBookingsThisMonth }}</span>
-                  <span class="stat-label">Reservas este mes</span>
+                  <span class="stat-label">{{ 'admin.bookingsMonth' | translate }}</span>
                 </div>
               </div>
               <div class="stat-card yellow">
                 <span class="stat-icon">⏳</span>
                 <div class="stat-info">
                   <span class="stat-value">{{ s.pendingBookings }}</span>
-                  <span class="stat-label">Pendientes</span>
+                  <span class="stat-label">{{ 'admin.pending' | translate }}</span>
                 </div>
               </div>
               <div class="stat-card green">
                 <span class="stat-icon">💰</span>
                 <div class="stat-info">
                   <span class="stat-value">{{ s.revenueThisMonth | number:'1.0-0' }}€</span>
-                  <span class="stat-label">Ingresos mes</span>
+                  <span class="stat-label">{{ 'admin.revenue' | translate }}</span>
                 </div>
               </div>
               <div class="stat-card blue">
                 <span class="stat-icon">👥</span>
                 <div class="stat-info">
                   <span class="stat-value">{{ s.totalStudents }}</span>
-                  <span class="stat-label">Alumnos</span>
+                  <span class="stat-label">{{ 'admin.students' | translate }}</span>
                 </div>
               </div>
             </div>
 
             <!-- Upcoming Bookings -->
             <div class="section-card">
-              <h2>📋 Próximas Clases</h2>
+              <h2>{{ 'admin.upcoming' | translate }}</h2>
               @if (s.upcomingBookings.length === 0) {
-                <p class="no-data">No hay clases próximas</p>
+                <p class="no-data">{{ 'admin.noUpcoming' | translate }}</p>
               } @else {
                 <div class="bookings-table">
                   <table>
                     <thead>
                       <tr>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Alumno</th>
-                        <th>Clase</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
+                        <th>{{ 'admin.date' | translate }}</th>
+                        <th>{{ 'admin.time' | translate }}</th>
+                        <th>{{ 'admin.student' | translate }}</th>
+                        <th>{{ 'admin.class' | translate }}</th>
+                        <th>{{ 'admin.status' | translate }}</th>
+                        <th>{{ 'admin.actions' | translate }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -98,7 +100,7 @@ import { DashboardStatsDto, BookingDto, BookingStatus } from '../../models/inter
               }
             </div>
           } @else {
-            <div class="loading">Cargando panel...</div>
+            <div class="loading">{{ 'admin.loading' | translate }}</div>
           }
         </div>
       }
@@ -109,7 +111,11 @@ import { DashboardStatsDto, BookingDto, BookingStatus } from '../../models/inter
 export class DashboardComponent implements OnInit {
   stats = signal<DashboardStatsDto | null>(null);
 
-  constructor(public auth: AuthService, private api: ApiService) {}
+  constructor(
+    public auth: AuthService,
+    private api: ApiService,
+    public ts: TranslationService
+  ) {}
 
   ngOnInit() {
     if (this.auth.isAdmin()) {
@@ -123,11 +129,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getStatusLabel(status: string): string {
-    const map: Record<string, string> = {
-      Pending: 'Pendiente', Confirmed: 'Confirmada',
-      Cancelled: 'Cancelada', Completed: 'Completada'
-    };
-    return map[status] || status;
+    return this.ts.t('admin.status' + status);
   }
 
   confirmBooking(b: BookingDto) {
@@ -139,7 +141,7 @@ export class DashboardComponent implements OnInit {
   cancelBookingAdmin(b: BookingDto) {
     this.api.updateBookingStatus(b.id, {
       status: 'Cancelled',
-      cancellationReason: 'Cancelada por la profesora'
+      cancellationReason: 'Cancelled by teacher'
     }).subscribe(() => {
       this.api.getDashboard().subscribe(s => this.stats.set(s));
     });

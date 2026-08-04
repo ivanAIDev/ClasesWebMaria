@@ -4,32 +4,34 @@ import { DatePipe } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { BookingDto, BookingStatus } from '../../models/interfaces';
+import { TranslationService } from '../../i18n/translation.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-my-bookings',
   standalone: true,
-  imports: [RouterLink, DatePipe],
+  imports: [RouterLink, DatePipe, TranslatePipe],
   template: `
     <div class="bookings-page">
       <div class="bookings-container">
         <div class="page-header">
-          <h1>📅 Mis Clases</h1>
-          <a routerLink="/reservar" class="btn-new">+ Nueva Reserva</a>
+          <h1>{{ 'myBookings.title' | translate }}</h1>
+          <a routerLink="/reservar" class="btn-new">{{ 'myBookings.new' | translate }}</a>
         </div>
 
         @if (!auth.isLoggedIn()) {
           <div class="auth-needed">
-            <p>Necesitas iniciar sesión para ver tus clases</p>
-            <a routerLink="/login" class="btn-primary">Iniciar Sesión</a>
+            <p>{{ 'myBookings.needLogin' | translate }}</p>
+            <a routerLink="/login" class="btn-primary">{{ 'nav.login' | translate }}</a>
           </div>
         } @else if (loading()) {
-          <div class="loading">Cargando tus clases...</div>
+          <div class="loading">{{ 'myBookings.loading' | translate }}</div>
         } @else if (bookings().length === 0) {
           <div class="empty-state">
             <span class="empty-icon">📭</span>
-            <h3>Aún no tienes clases reservadas</h3>
-            <p>Reserva tu primera clase y empieza a aprender</p>
-            <a routerLink="/reservar" class="btn-primary">Reservar Clase</a>
+            <h3>{{ 'myBookings.empty' | translate }}</h3>
+            <p>{{ 'myBookings.emptyDesc' | translate }}</p>
+            <a routerLink="/reservar" class="btn-primary">{{ 'myBookings.bookBtn' | translate }}</a>
           </div>
         } @else {
           <div class="bookings-list">
@@ -46,7 +48,7 @@ import { BookingDto, BookingStatus } from '../../models/interfaces';
                   </p>
                   @if (booking.meetingLink) {
                     <a [href]="booking.meetingLink" target="_blank" class="meeting-link">
-                      💻 Unirse a la clase
+                      {{ 'myBookings.join' | translate }}
                     </a>
                   }
                 </div>
@@ -57,7 +59,7 @@ import { BookingDto, BookingStatus } from '../../models/interfaces';
                   <span class="booking-price">{{ booking.price }}€</span>
                   @if (canCancel(booking)) {
                     <button class="btn-cancel" (click)="cancelBooking(booking)">
-                      Cancelar
+                      {{ 'myBookings.cancel' | translate }}
                     </button>
                   }
                 </div>
@@ -74,7 +76,11 @@ export class MyBookingsComponent implements OnInit {
   bookings = signal<BookingDto[]>([]);
   loading = signal(true);
 
-  constructor(public auth: AuthService, private api: ApiService) {}
+  constructor(
+    public auth: AuthService,
+    private api: ApiService,
+    public ts: TranslationService
+  ) {}
 
   ngOnInit() {
     if (this.auth.isLoggedIn()) {
@@ -93,14 +99,7 @@ export class MyBookingsComponent implements OnInit {
   }
 
   getStatusLabel(status: BookingStatus): string {
-    const labels: Record<string, string> = {
-      Pending: '⏳ Pendiente',
-      Confirmed: '✅ Confirmada',
-      Cancelled: '❌ Cancelada',
-      Completed: '🎓 Completada',
-      NoShow: '⚠️ No asistió'
-    };
-    return labels[status] || status;
+    return this.ts.t('status.' + status);
   }
 
   canCancel(booking: BookingDto): boolean {
@@ -108,7 +107,7 @@ export class MyBookingsComponent implements OnInit {
   }
 
   cancelBooking(booking: BookingDto) {
-    if (confirm('¿Estás seguro de que quieres cancelar esta clase?')) {
+    if (confirm(this.ts.t('myBookings.cancelConfirm'))) {
       this.api.cancelBooking(booking.id).subscribe(() => {
         this.bookings.update(list =>
           list.map(b => b.id === booking.id ? { ...b, status: BookingStatus.Cancelled } : b)

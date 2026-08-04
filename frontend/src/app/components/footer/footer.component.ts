@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TranslationService } from '../../i18n/translation.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   template: `
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-section brand">
           <h3>📚 María<span>Clases</span></h3>
-          <p>Clases particulares de español e inglés personalizadas. Online y presencial en Praga.</p>
+          <p>{{ 'footer.desc' | translate }}</p>
           <div class="social-links">
             <a href="#" aria-label="Instagram">📷</a>
             <a href="#" aria-label="WhatsApp">💬</a>
@@ -19,30 +21,30 @@ import { RouterLink } from '@angular/router';
         </div>
 
         <div class="footer-section">
-          <h4>Clases</h4>
+          <h4>{{ 'footer.classes' | translate }}</h4>
           <a routerLink="/reservar">Español General</a>
           <a routerLink="/reservar">Inglés General</a>
-          <a routerLink="/reservar">Preparación DELE</a>
-          <a routerLink="/reservar">Preparación Cambridge</a>
+          <a routerLink="/reservar">DELE</a>
+          <a routerLink="/reservar">Cambridge</a>
         </div>
 
         <div class="footer-section">
-          <h4>Contacto</h4>
-          <p>📍 Praga, República Checa</p>
+          <h4>{{ 'footer.contact' | translate }}</h4>
+          <p>📍 Praha, Česká republika</p>
           <p>📞 +420 612 345 678</p>
           <p>✉️ maria&#64;webclases.com</p>
         </div>
 
         <div class="footer-section">
-          <h4>Enlaces</h4>
-          <a routerLink="/">Inicio</a>
-          <a routerLink="/reservar">Reservar Clase</a>
-          <a routerLink="/registro">Registrarse</a>
+          <h4>{{ 'footer.links' | translate }}</h4>
+          <a routerLink="/">{{ 'nav.home' | translate }}</a>
+          <a routerLink="/reservar">{{ 'nav.book' | translate }}</a>
+          <a routerLink="/registro">{{ 'nav.register' | translate }}</a>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; {{ currentYear }} MaríaClases — Todos los derechos reservados</p>
+        <p>&copy; {{ currentYear }} MaríaClases — {{ 'footer.rights' | translate }}</p>
       </div>
     </footer>
   `,
@@ -120,4 +122,6 @@ import { RouterLink } from '@angular/router';
 })
 export class FooterComponent {
   currentYear = new Date().getFullYear();
+
+  constructor(public ts: TranslationService) {}
 }
