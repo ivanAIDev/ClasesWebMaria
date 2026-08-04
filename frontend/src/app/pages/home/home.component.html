@@ -74,7 +74,7 @@
     @if (profile(); as p) {
       <div class="services-grid">
         @for (lesson of p.lessonTypes; track lesson.id) {
-          <div class="service-card" [class]="'lang-' + lesson.language.toLowerCase()">
+          <div class="service-card" [class]="'lang-' + langClass(lesson.language)">
             <div class="service-icon">{{ lesson.icon }}</div>
             <h3>{{ lesson.name }}</h3>
             <p>{{ lesson.description }}</p>
@@ -83,7 +83,7 @@
               <span class="price">{{ lesson.price }}€ · {{ lesson.priceCzk }} Kč</span>
             </div>
             <span class="modality-tag">
-              {{ lesson.modality === 'Online' ? ts.t('services.online') : lesson.modality === 'InPerson' ? ts.t('services.inPerson') : ts.t('services.both') }}
+              {{ modalityLabel(lesson.modality) }}
             </span>
             <a routerLink="/reservar" class="btn-book">{{ 'services.bookBtn' | translate }}</a>
           </div>

@@ -19,6 +19,19 @@ export class HomeComponent implements OnInit {
 
   constructor(private api: ApiService, public ts: TranslationService) {}
 
+  langClass(language: any): string {
+    if (typeof language === 'string') return language.toLowerCase();
+    // .NET enum: 0 = Spanish, 1 = English
+    return language === 0 ? 'spanish' : 'english';
+  }
+
+  modalityLabel(modality: any): string {
+    const m = typeof modality === 'string' ? modality : (modality === 0 ? 'Online' : modality === 1 ? 'InPerson' : 'Both');
+    if (m === 'Online') return this.ts.t('services.online');
+    if (m === 'InPerson') return this.ts.t('services.inPerson');
+    return this.ts.t('services.both');
+  }
+
   ngOnInit() {
     this.api.getTeacherProfile().subscribe(p => this.profile.set(p));
     this.api.getReviews().subscribe(r => this.reviews.set(r));

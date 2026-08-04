@@ -217,4 +217,14 @@ export class BookingComponent implements OnInit {
   formatDate(date: Date): string {
     return date.toISOString().split('T')[0];
   }
+
+  langClass(language: any): string {
+    if (typeof language === 'string') return language.toLowerCase();
+    return language === 0 ? 'spanish' : 'english';
+  }
+
+  modalityIcon(modality: any): string {
+    const m = typeof modality === 'string' ? modality : (modality === 0 ? 'Online' : modality === 1 ? 'InPerson' : 'Both');
+    return m === 'Online' ? '💻' : m === 'InPerson' ? '🏠' : '💻🏠';
+  }
 }

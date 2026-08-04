@@ -28,7 +28,7 @@
         <div class="lessons-grid">
           @for (lesson of lessonTypes(); track lesson.id) {
             <div class="lesson-card" (click)="selectLesson(lesson)"
-                 [class]="'lang-' + lesson.language.toLowerCase()">
+                 [class]="'lang-' + langClass(lesson.language)">
               <div class="lesson-icon">{{ lesson.icon }}</div>
               <div class="lesson-info">
                 <h3>{{ lesson.name }}</h3>
@@ -36,7 +36,7 @@
                 <div class="lesson-meta">
                   <span class="meta-duration">⏱ {{ lesson.durationMinutes }} {{ 'services.min' | translate }}</span>
                   <span class="meta-modality">
-                    {{ lesson.modality === 'Online' ? '💻' : lesson.modality === 'InPerson' ? '🏠' : '💻🏠' }}
+                    {{ modalityIcon(lesson.modality) }}
                   </span>
                   <span class="meta-price">{{ lesson.price }}€ · {{ lesson.priceCzk }} Kč</span>
                 </div>
