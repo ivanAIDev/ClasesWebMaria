@@ -10,7 +10,7 @@
       <span class="hero-badge">🎓 Profesora titulada · +8 años de experiencia</span>
       <h1>Aprende <span class="gradient-text">Español</span> e <span class="gradient-text-2">Inglés</span> con clases a tu medida</h1>
       <p class="hero-subtitle">
-        Clases particulares personalizadas, online o presenciales en Madrid.
+        Clases particulares personalizadas, online o presenciales en Praga.
         Desde conversación fluida hasta preparación de exámenes oficiales.
       </p>
       <div class="hero-actions">
@@ -43,19 +43,19 @@
     <div class="hero-visual">
       <div class="profile-card">
         <div class="profile-avatar">👩‍🏫</div>
-        <h3>María García</h3>
+        <h3>María Jesús</h3>
         <p class="profile-title">Profesora de Español e Inglés</p>
         <div class="profile-badges">
           <span class="badge badge-es">🇪🇸 Español</span>
           <span class="badge badge-en">🇬🇧 Inglés</span>
         </div>
         <div class="profile-info">
-          <span>📍 Madrid</span>
+          <span>📍 Praga</span>
           <span>💻 Online & Presencial</span>
         </div>
         @if (profile(); as p) {
           <div class="price-tag">
-            Desde <strong>{{ p.pricePerHourSpanish }}€</strong>/hora
+            Desde <strong>{{ p.pricePerHourSpanish }}€</strong> · <strong>{{ p.pricePerHourSpanish * p.czkEurRate }} Kč</strong>/hora
           </div>
         }
       </div>
@@ -81,7 +81,7 @@
             <p>{{ lesson.description }}</p>
             <div class="service-meta">
               <span class="duration">⏱ {{ lesson.durationMinutes }} min</span>
-              <span class="price">{{ lesson.price }}€</span>
+              <span class="price">{{ lesson.price }}€ · {{ lesson.priceCzk }} Kč</span>
             </div>
             <span class="modality-tag">
               {{ lesson.modality === 'Online' ? '💻 Online' : lesson.modality === 'InPerson' ? '🏠 Presencial' : '💻🏠 Online & Presencial' }}
@@ -111,7 +111,7 @@
       <div class="feature-card">
         <div class="feature-icon">📱</div>
         <h3>Online o Presencial</h3>
-        <p>Elige cómo aprender: desde casa por videollamada o presencial en Madrid.</p>
+        <p>Elige cómo aprender: desde casa por videollamada o presencial en Praga.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">📝</div>

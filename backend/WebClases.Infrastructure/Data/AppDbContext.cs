@@ -36,6 +36,7 @@ public class AppDbContext : DbContext
             entity.Property(t => t.Bio).HasMaxLength(2000);
             entity.Property(t => t.PricePerHourSpanish).HasColumnType("decimal(10,2)");
             entity.Property(t => t.PricePerHourEnglish).HasColumnType("decimal(10,2)");
+            entity.Property(t => t.CzkEurRate).HasColumnType("decimal(10,2)");
             entity.Property(t => t.Location).HasMaxLength(200);
         });
 
@@ -54,6 +55,7 @@ public class AppDbContext : DbContext
             entity.Property(l => l.Name).HasMaxLength(200).IsRequired();
             entity.Property(l => l.Description).HasMaxLength(1000);
             entity.Property(l => l.Price).HasColumnType("decimal(10,2)");
+            entity.Property(l => l.PriceCzk).HasColumnType("decimal(10,2)");
             entity.HasOne(l => l.TeacherProfile)
                   .WithMany(t => t.LessonTypes)
                   .HasForeignKey(l => l.TeacherProfileId)

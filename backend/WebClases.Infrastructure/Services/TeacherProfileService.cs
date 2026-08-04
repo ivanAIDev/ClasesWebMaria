@@ -33,6 +33,7 @@ public class TeacherProfileService : ITeacherProfileService
             profile.VideoIntroUrl,
             profile.PricePerHourSpanish,
             profile.PricePerHourEnglish,
+            profile.CzkEurRate,
             profile.Modality,
             profile.Location,
             profile.YearsOfExperience,
@@ -40,7 +41,7 @@ public class TeacherProfileService : ITeacherProfileService
             profile.SpecialtyDescription,
             profile.LessonTypes.OrderBy(l => l.SortOrder).Select(l => new LessonTypeDto(
                 l.Id, l.Name, l.Description, l.Language,
-                l.DurationMinutes, l.Price, l.Modality, l.Icon, l.SortOrder
+                l.DurationMinutes, l.Price, l.PriceCzk, l.Modality, l.Icon, l.SortOrder
             )).ToList(),
             avgRating,
             totalReviews
@@ -76,7 +77,7 @@ public class TeacherProfileService : ITeacherProfileService
             .OrderBy(l => l.SortOrder)
             .Select(l => new LessonTypeDto(
                 l.Id, l.Name, l.Description, l.Language,
-                l.DurationMinutes, l.Price, l.Modality, l.Icon, l.SortOrder
+                l.DurationMinutes, l.Price, l.PriceCzk, l.Modality, l.Icon, l.SortOrder
             ))
             .ToListAsync();
     }

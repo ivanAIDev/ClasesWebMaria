@@ -38,7 +38,7 @@
                   <span class="meta-modality">
                     {{ lesson.modality === 'Online' ? '💻' : lesson.modality === 'InPerson' ? '🏠' : '💻🏠' }}
                   </span>
-                  <span class="meta-price">{{ lesson.price }}€</span>
+                  <span class="meta-price">{{ lesson.price }}€ · {{ lesson.priceCzk }} Kč</span>
                 </div>
               </div>
               <div class="lesson-arrow">→</div>
@@ -136,7 +136,7 @@
             </div>
             <div class="summary-row highlight">
               <span class="summary-label">Precio</span>
-              <span class="summary-value price">{{ selectedLesson()?.price }}€</span>
+              <span class="summary-value price">{{ selectedLesson()?.price }}€ · {{ selectedLesson()?.priceCzk }} Kč</span>
             </div>
           </div>
 

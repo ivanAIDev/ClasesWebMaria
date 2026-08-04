@@ -8,7 +8,8 @@ public class LessonType : BaseEntity
     public string Description { get; set; } = string.Empty;
     public Language Language { get; set; }
     public int DurationMinutes { get; set; } = 60;
-    public decimal Price { get; set; }
+    public decimal Price { get; set; } // EUR
+    public decimal PriceCzk { get; set; } // CZK
     public LessonModality Modality { get; set; }
     public bool IsActive { get; set; } = true;
     public string? Icon { get; set; }

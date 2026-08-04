@@ -20,20 +20,22 @@ public static class DataSeeder
         {
             Id = teacherProfileId,
             Title = "Profesora de Español e Inglés — Clases Particulares Personalizadas",
-            Bio = "¡Hola! Soy María, profesora titulada con más de 8 años de experiencia " +
+            Bio = "¡Hola! Soy María Jesús, profesora titulada con más de 8 años de experiencia " +
                   "enseñando español e inglés a alumnos de todas las edades y niveles. " +
+                  "Vivo en Praga y doy clases tanto online como presenciales. " +
                   "Mi método se adapta a cada estudiante: desde preparación de exámenes oficiales " +
                   "(DELE, Cambridge, TOEFL) hasta conversación fluida y clases para empresas. " +
                   "Creo en un aprendizaje dinámico, divertido y eficaz. ¡Te espero en clase!",
             PricePerHourSpanish = 20.00m,
             PricePerHourEnglish = 22.00m,
+            CzkEurRate = 25.0m,
             Modality = LessonModality.Both,
-            Location = "Madrid, España",
+            Location = "Praga, República Checa",
             YearsOfExperience = 8,
             Qualifications = "Grado en Filología Hispánica, Certificado TEFL, Cambridge C2 Proficiency",
             SpecialtyDescription = "Preparación de exámenes oficiales, conversación, español para extranjeros, inglés de negocios",
-            MetaTitle = "Clases Particulares de Español e Inglés | María — Profesora Titulada",
-            MetaDescription = "Reserva clases particulares de español e inglés con María. Online y presencial en Madrid. Todos los niveles. Primera clase de prueba gratuita."
+            MetaTitle = "Clases Particulares de Español e Inglés | María Jesús — Profesora Titulada",
+            MetaDescription = "Reserva clases particulares de español e inglés con María Jesús. Online y presencial en Praga. Todos los niveles. Primera clase de prueba gratuita."
         };
 
         context.TeacherProfiles.Add(teacherProfile);
@@ -49,6 +51,7 @@ public static class DataSeeder
                 Language = Language.Spanish,
                 DurationMinutes = 60,
                 Price = 20.00m,
+                PriceCzk = 500.00m,
                 Modality = LessonModality.Both,
                 Icon = "🇪🇸",
                 SortOrder = 1
@@ -61,6 +64,7 @@ public static class DataSeeder
                 Language = Language.English,
                 DurationMinutes = 60,
                 Price = 22.00m,
+                PriceCzk = 550.00m,
                 Modality = LessonModality.Both,
                 Icon = "🇬🇧",
                 SortOrder = 2
@@ -73,6 +77,7 @@ public static class DataSeeder
                 Language = Language.Spanish,
                 DurationMinutes = 90,
                 Price = 30.00m,
+                PriceCzk = 750.00m,
                 Modality = LessonModality.Both,
                 Icon = "📝",
                 SortOrder = 3
@@ -85,6 +90,7 @@ public static class DataSeeder
                 Language = Language.English,
                 DurationMinutes = 90,
                 Price = 30.00m,
+                PriceCzk = 750.00m,
                 Modality = LessonModality.Both,
                 Icon = "🎓",
                 SortOrder = 4
@@ -97,6 +103,7 @@ public static class DataSeeder
                 Language = Language.Spanish,
                 DurationMinutes = 45,
                 Price = 15.00m,
+                PriceCzk = 375.00m,
                 Modality = LessonModality.Online,
                 Icon = "💬",
                 SortOrder = 5
@@ -109,6 +116,7 @@ public static class DataSeeder
                 Language = Language.English,
                 DurationMinutes = 60,
                 Price = 25.00m,
+                PriceCzk = 625.00m,
                 Modality = LessonModality.Online,
                 Icon = "💼",
                 SortOrder = 6
@@ -159,12 +167,12 @@ public static class DataSeeder
         // Create admin/teacher user
         var adminUser = new User
         {
-            FirstName = "María",
-            LastName = "García",
+            FirstName = "María Jesús",
+            LastName = "",
             Email = "maria@webclases.com",
             PasswordHash = BCryptHelper.HashPassword("Admin123!"),
             Role = UserRole.Admin,
-            Phone = "+34 612 345 678"
+            Phone = "+420 612 345 678"
         };
 
         context.Users.Add(adminUser);

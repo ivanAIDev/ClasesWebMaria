@@ -62,6 +62,7 @@ export interface TeacherProfileDto {
   videoIntroUrl?: string;
   pricePerHourSpanish: number;
   pricePerHourEnglish: number;
+  czkEurRate: number;
   modality: LessonModality;
   location?: string;
   yearsOfExperience: number;
@@ -79,6 +80,7 @@ export interface LessonTypeDto {
   language: Language;
   durationMinutes: number;
   price: number;
+  priceCzk: number;
   modality: LessonModality;
   icon?: string;
   sortOrder: number;

@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
       <div class="footer-content">
         <div class="footer-section brand">
           <h3>📚 María<span>Clases</span></h3>
-          <p>Clases particulares de español e inglés personalizadas. Online y presencial en Madrid.</p>
+          <p>Clases particulares de español e inglés personalizadas. Online y presencial en Praga.</p>
           <div class="social-links">
             <a href="#" aria-label="Instagram">📷</a>
             <a href="#" aria-label="WhatsApp">💬</a>
@@ -28,8 +28,8 @@ import { RouterLink } from '@angular/router';
 
         <div class="footer-section">
           <h4>Contacto</h4>
-          <p>📍 Madrid, España</p>
-          <p>📞 +34 612 345 678</p>
+          <p>📍 Praga, República Checa</p>
+          <p>📞 +420 612 345 678</p>
           <p>✉️ maria&#64;webclases.com</p>
         </div>
 

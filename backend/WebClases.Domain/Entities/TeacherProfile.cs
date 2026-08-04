@@ -10,6 +10,7 @@ public class TeacherProfile : BaseEntity
     public string? VideoIntroUrl { get; set; }
     public decimal PricePerHourSpanish { get; set; }
     public decimal PricePerHourEnglish { get; set; }
+    public decimal CzkEurRate { get; set; } = 25.0m; // 1 EUR ≈ 25 CZK
     public LessonModality Modality { get; set; } = LessonModality.Both;
     public string? Location { get; set; }
     public int YearsOfExperience { get; set; }

@@ -10,6 +10,7 @@ public record TeacherProfileDto(
     string? VideoIntroUrl,
     decimal PricePerHourSpanish,
     decimal PricePerHourEnglish,
+    decimal CzkEurRate,
     LessonModality Modality,
     string? Location,
     int YearsOfExperience,
@@ -27,6 +28,7 @@ public record LessonTypeDto(
     Language Language,
     int DurationMinutes,
     decimal Price,
+    decimal PriceCzk,
     LessonModality Modality,
     string? Icon,
     int SortOrder
